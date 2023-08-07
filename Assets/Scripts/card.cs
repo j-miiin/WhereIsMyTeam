@@ -37,7 +37,7 @@ public class card : MonoBehaviour
         }
     }
 
-    // public ÇÔ¼ö´Â GameManager°¡ ºÎ¸£´Â ÇÔ¼ö
+    // public Ã‡Ã”Â¼Ã¶Â´Ã‚ GameManagerÂ°Â¡ ÂºÃŽÂ¸Â£Â´Ã‚ Ã‡Ã”Â¼Ã¶
     public void destroyCard()
     {
         Invoke("destroyCardInvoke", 1.0f);
@@ -56,6 +56,7 @@ public class card : MonoBehaviour
     void closeCardInvoke()
     {
         anim.SetBool("isOpen", false);
+        transform.Find("back").GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.7f, 0.7f, 1f);
         transform.Find("back").gameObject.SetActive(true);
         transform.Find("front").gameObject.SetActive(false);
     }

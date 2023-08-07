@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 16; i++)
         {
             GameObject newCard = Instantiate(card);
-            // newCard¸¦ cards ¾ÈÀ¸·Î ¿Å°ÜÁà
+            // newCard¸¦ cards ¾È?¸·Î ¿Å°ÜÁà
             newCard.transform.parent = GameObject.Find("cards").transform;
             float x = (i / 4) * 1.4f - 2.1f;
             float y = (i % 4) * 1.4f - 3.0f;

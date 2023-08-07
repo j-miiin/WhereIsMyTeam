@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public GameObject secondCard;
 
     public AudioClip match;
+    public AudioClip fail;
     public AudioSource audioSource;
 
     private void Awake()
@@ -40,7 +41,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 16; i++)
         {
             GameObject newCard = Instantiate(card);
-            // newCard¸¦ cards ¾ÈÀ¸·Î ¿Å°ÜÁà
+            // newCardÂ¸Â¦ cards Â¾ÃˆÃ€Â¸Â·ÃŽ Â¿Ã…Â°ÃœÃÃ 
             newCard.transform.parent = GameObject.Find("cards").transform;
             float x = (i / 4) * 1.4f - 2.1f;
             float y = (i % 4) * 1.4f - 3.0f;
@@ -84,6 +85,8 @@ public class GameManager : MonoBehaviour
             }
         } else
         {
+            audioSource.PlayOneShot(fail);
+        
             firstCard.GetComponent<card>().closeCard();
             secondCard.GetComponent<card>().closeCard();
         }
@@ -97,7 +100,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         endText.SetActive(true);
-        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + "È¸ ½Ãµµ";
+        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + "ÃˆÂ¸ Â½ÃƒÂµÂµ";
         tryMatchCountText.SetActive(true);
     }
 

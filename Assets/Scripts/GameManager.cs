@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         endText.SetActive(true);
-        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + "È¸ ½Ãµµ";
+        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + "ȸ �õ�";
         tryMatchCountText.SetActive(true);
     }
 

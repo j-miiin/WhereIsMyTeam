@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour
     public Text timeText;
     public GameObject card;
     public GameObject endText;
+    public GameObject tryMatchCountText;
     float time;
+    int tryMatchCount;
 
     public static GameManager I;
 
@@ -29,6 +31,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1f;
+
+        tryMatchCount = 0;
 
         int[] rtans = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
         rtans = rtans.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
@@ -86,12 +90,15 @@ public class GameManager : MonoBehaviour
 
         firstCard = null;
         secondCard = null;
+        tryMatchCount++;
     }
 
     void GameEnd()
     {
         Time.timeScale = 0f;
         endText.SetActive(true);
+        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + "È¸ ½Ãµµ";
+        tryMatchCountText.SetActive(true);
     }
 
     public void retryGame()

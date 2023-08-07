@@ -37,7 +37,6 @@ public class card : MonoBehaviour
         }
     }
 
-    // public ÇÔ¼ö´Â GameManager°¡ ºÎ¸£´Â ÇÔ¼ö
     public void destroyCard()
     {
         Invoke("destroyCardInvoke", 1.0f);

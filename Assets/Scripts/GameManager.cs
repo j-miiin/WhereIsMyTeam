@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject tryMatchCountText;
     float time;
     int tryMatchCount;
+    bool isSpeedUp;
 
     public static GameManager I;
 
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
+        time = 30f;
         tryMatchCount = 0;
 
         int[] rtans = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
@@ -53,14 +55,25 @@ public class GameManager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {     
-        if (time > 30f)
+    {
+        if (time <= 0f)
         {
             Time.timeScale = 0f;
             endText.SetActive(true);
+            tryMatchCountText.GetComponent<Text>().text = tryMatchCount + "È¸ ½Ãµµ";
+            tryMatchCountText.SetActive(true);
+        } else if (time <= 5f) {
+            if (!isSpeedUp)
+            {
+                timeText.color = Color.red;
+                audioManager.A.playSpeedUpMusic();
+                isSpeedUp = true;
+            }
+            time -= Time.deltaTime;
+            timeText.text = time.ToString("N2");
         } else
         {
-            time += Time.deltaTime;
+            time -= Time.deltaTime;
             timeText.text = time.ToString("N2");
         }
     }

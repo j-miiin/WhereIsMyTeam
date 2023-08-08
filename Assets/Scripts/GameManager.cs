@@ -35,20 +35,20 @@ public class GameManager : MonoBehaviour
     public AudioSource audioSource;
     public Text matchText;
 
-    [Header("瑜댄 ㅽ쇱댄 ъ댁 湲곗 500x500")]
+    [Header("르탄이 스프라이트 사이즈 기준 500x500")]
     public int rtanSpriteSize = 500;
 
-    [Header("移대 댄 媛")]
+    [Header("카드 이펙트 시간")]
     public float matchTextTime = 1f;
 
     public float closeDelayTime = 0.5f;
     public string unCorrectMessage = "실패";
 
-    [Header("留ㅼ묶 而щ")]
+    [Header("매칭 컬러")]
     public Color correctColor;
     public Color unCorrectColor;
 
-    [Header("移대 寃쎈")]
+    [Header("카드 경로")]
     public const string CARD_PATH = "cardImages";
 
     [Header("스폰 되는 기준 원 반지름")]
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
 
             cardRenderer.sprite = sprites[teams[i]];
 
-            // ㅼ 명
+            // 스케일 세팅
             Vector3 tempScale = frontTrans.transform.localScale;
             tempScale.x *= rtanSpriteSize / cardRenderer.sprite.rect.width;
             tempScale.y *= rtanSpriteSize / cardRenderer.sprite.rect.height;
@@ -152,9 +152,6 @@ public class GameManager : MonoBehaviour
         if (time <= 0f)
         {
             Time.timeScale = 0f;
-            endText.SetActive(true);
-            tryMatchCountText.GetComponent<Text>().text = tryMatchCount + "  ";
-            tryMatchCountText.SetActive(true);
             setResultPanel();
         } else if (time <= 5f) {
             if (!isSpeedUp)
@@ -230,13 +227,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator CoVerifyMatching(string cardName, bool isCorrect = false)
     {
-        // 留痍 
+        // 맞췄을 때
         if (isCorrect)
         {
             matchText.text = cardName.Split('_')[0];
             matchText.color = correctColor;
         }
-        //  
+        // 아닐 때
         else
         {
             matchText.text = unCorrectMessage;
@@ -262,8 +259,6 @@ public class GameManager : MonoBehaviour
             if (tryCntScore > 0) score += tryCntScore;
         }
         setResultPanel();
-        //endText.SetActive(true);
-        //tryMatchCountText.SetActive(true);
     }
 
     public void retryGame()

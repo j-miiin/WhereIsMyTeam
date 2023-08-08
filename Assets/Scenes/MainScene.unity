@@ -169,8 +169,8 @@ MonoBehaviour:
   rtanSpriteSize: 500
   matchTextTime: 1
   unCorrectMessage: "\uC2E4\uD328"
-  correctColor: {r: 0, g: 0, b: 0, a: 0}
-  unCorrectColor: {r: 0, g: 0, b: 0, a: 0}
+  correctColor: {r: 0.78431374, g: 1, b: 0, a: 0.003921569}
+  unCorrectColor: {r: 1, g: 0, b: 0, a: 0.003921569}
   radius: 5
   cardSettingTime: 1
 --- !u!4 &58303204

@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0f;
             endText.SetActive(true);
-            tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " try";
+            tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " 회 시도";
             tryMatchCountText.SetActive(true);
         } else if (time <= 5f) {
             if (!isSpeedUp)
@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         endText.SetActive(true);
-        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " try";
+        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " 회 시도";
         tryMatchCountText.SetActive(true);
     }
 

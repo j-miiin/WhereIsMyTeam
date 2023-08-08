@@ -40,33 +40,43 @@ public class GameManager : MonoBehaviour
     [Header("카드 경로")]
     public const string CARD_PATH = "cardImages";
 
+    [Header("스폰 되는 기준 원 반지름")]
+    public float radius = 5f;
+
+    [Header("카드 세팅")]
+    public float cardSettingTime = 1f;
+    bool isSettings = true;
+
     private void Awake()
     {
         I = this;
     }
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
         Time.timeScale = 1f;
+        time = 30f;
+        timeText.text = time.ToString("N2");
 
         int[] teams = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
         teams = teams.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
         
         // 폴더의 스프라이트 모두 부르기
         Sprite[] sprites = Resources.LoadAll<Sprite>(CARD_PATH);
-        time = 30f;
         tryMatchCount = 0;
-
-
 
         for (int i = 0; i < 16; i++)
         {
             GameObject newCard = Instantiate(card);
             newCard.transform.parent = GameObject.Find("cards").transform;
+
+            // 큰 원의 반지름 만큼의 랜덤 위치 값
+            newCard.transform.position = Random.onUnitSphere * radius;
             float x = (i / 4) * 1.4f - 2.1f;
             float y = (i % 4) * 1.4f - 3.0f;
-            newCard.transform.position = new Vector3(x, y, 0);
+
+            StartCoroutine(CoMoveOffsetPosition(newCard.transform, new Vector3(x, y, 0)));
 
             Transform frontTrans = newCard.transform.Find("front");
             SpriteRenderer cardRenderer = frontTrans.GetComponent<SpriteRenderer>();
@@ -79,11 +89,49 @@ public class GameManager : MonoBehaviour
             tempScale.y *= rtanSpriteSize / cardRenderer.sprite.rect.height;
             frontTrans.localScale = tempScale;
         }
+
+        yield return new WaitForSeconds(cardSettingTime);
+
+        isSettings = false;
     }
 
-    // Update is called once per frame
+    IEnumerator CoMoveOffsetPosition(Transform cardTrans, Vector3 destination)
+    {
+        Vector3 offsetPos = cardTrans.position;
+        Vector3 targetPos = Vector3.zero;
+        float ratio = 0f;
+        while (ratio < cardSettingTime)
+        {
+            ratio += Time.deltaTime;
+            targetPos = Vector3.Lerp(offsetPos, destination, ratio / cardSettingTime);
+
+            // 원의 방정식 (x-a)^2 + (y-b)^2 = r^2
+            float halfRadius = radius * 0.5f;
+            // 반지름의 제곱
+            float powRadius = Mathf.Pow(halfRadius, 2);
+            // 현재 x위치가 목표의 왼쪽인지 오른쪽인지
+            bool isDestinationXLow = targetPos.x > destination.x;
+            // 오른쪽이라면 반지름 빼주기 왼쪽이라면 반지름 더해주기 (원의 센터 x좌표가 반지름만큼 차이나니까)
+            float powXPos = isDestinationXLow ? Mathf.Pow(targetPos.x - destination.x - halfRadius, 2) 
+                : Mathf.Pow(targetPos.x - destination.x + halfRadius, 2);
+            // y좌표
+            float yPos = Mathf.Sqrt(Mathf.Abs(powRadius - powXPos));
+
+            // 현재 위치에서 목표지점까지의 선분(원의 지름) 위의 점 + 원 중심으로부터 y좌표
+            targetPos.y += yPos;
+            cardTrans.position = targetPos;
+
+            yield return null;
+        }
+    }
+
     void Update()
     {
+        if (isSettings)
+        {
+            return;
+        }
+
         if (time <= 0f)
         {
             Time.timeScale = 0f;

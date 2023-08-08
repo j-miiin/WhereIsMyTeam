@@ -151,15 +151,8 @@ public class GameManager : MonoBehaviour
         if (time <= 0f)
         {
             Time.timeScale = 0f;
-            endText.SetActive(true);
-            tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " try";
-            tryMatchCountText.SetActive(true);
-        } else if (time <= 5f) {
             setResultPanel();
-            //endText.SetActive(true);
-            //tryMatchCountText.SetActive(true);
-        }
-        else if (time <= 5f) {
+        } else if (time <= 5f) {
             if (!isSpeedUp)
             {
                 timeText.color = Color.red;
@@ -253,9 +246,7 @@ public class GameManager : MonoBehaviour
     void GameEnd()
     {
         Time.timeScale = 0f;
-        endText.SetActive(true);
-        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " try";
-        tryMatchCountText.SetActive(true);
+
         if (isSuccess)
         {
             score += (int)time * 100;

@@ -77,15 +77,16 @@ public class GameManager : MonoBehaviour
         score = 0;
         countdownTime = COUNTDOWN_TIME;
 
+        //stageManager.S.selectStage(stageSelectManager.SSM.getStage());
         stageManager.S.selectStage(2);
 
         //int[] teams = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
         //teams = teams.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
 
-        
+
         //// 폴더의 스프라이트 모두 부르기
         //Sprite[] sprites = Resources.LoadAll<Sprite>(CARD_PATH);
-        
+
         //for (int i = 0; i < 16; i++)
         //{
         //    GameObject newCard = Instantiate(card);
@@ -103,7 +104,8 @@ public class GameManager : MonoBehaviour
 
         //    cardRenderer.sprite = sprites[teams[i]];
 
-        //    // 스케일 세팅
+        //    // 스케일 세팅
+
         //    Vector3 tempScale = frontTrans.transform.localScale;
         //    tempScale.x *= rtanSpriteSize / cardRenderer.sprite.rect.width;
         //    tempScale.y *= rtanSpriteSize / cardRenderer.sprite.rect.height;
@@ -251,9 +253,6 @@ public class GameManager : MonoBehaviour
     void GameEnd()
     {
         Time.timeScale = 0f;
-        endText.SetActive(true);
-        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + "  ";
-        tryMatchCountText.SetActive(true);
 
         if (isSuccess)
         {

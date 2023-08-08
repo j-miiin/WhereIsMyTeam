@@ -37,7 +37,6 @@ public class card : MonoBehaviour
         }
     }
 
-    // public 함수는 GameManager가 부르는 함수
     public void destroyCard()
     {
         Invoke("destroyCardInvoke", 1.0f);
@@ -56,6 +55,7 @@ public class card : MonoBehaviour
     void closeCardInvoke()
     {
         anim.SetBool("isOpen", false);
+        transform.Find("back").GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.7f, 0.7f, 1f);
         transform.Find("back").gameObject.SetActive(true);
         transform.Find("front").gameObject.SetActive(false);
     }

@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour
     public Text timeText;
     public GameObject card;
     public GameObject endText;
+    public GameObject tryMatchCountText;
     float time;
+    int tryMatchCount;
+    bool isSpeedUp;
 
     public static GameManager I;
 
@@ -18,6 +21,7 @@ public class GameManager : MonoBehaviour
     public GameObject secondCard;
 
     public AudioClip match;
+    public AudioClip fail;
     public AudioSource audioSource;
     public Text matchText;
 
@@ -51,11 +55,14 @@ public class GameManager : MonoBehaviour
 
         // 폴더의 스프라이트 모두 부르기
         Sprite[] sprites = Resources.LoadAll<Sprite>(CARD_PATH);
+        time = 30f;
+        tryMatchCount = 0;
+
+
 
         for (int i = 0; i < 16; i++)
         {
             GameObject newCard = Instantiate(card);
-            // newCard를 cards 안으로 옮겨줘
             newCard.transform.parent = GameObject.Find("cards").transform;
             float x = (i / 4) * 1.4f - 2.1f;
             float y = (i % 4) * 1.4f - 3.0f;
@@ -77,14 +84,24 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (time > 30f)
+        if (time <= 0f)
         {
             Time.timeScale = 0f;
             endText.SetActive(true);
-        }
-        else
+            tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " try";
+            tryMatchCountText.SetActive(true);
+        } else if (time <= 5f) {
+            if (!isSpeedUp)
+            {
+                timeText.color = Color.red;
+                audioManager.A.playSpeedUpMusic();
+                isSpeedUp = true;
+            }
+            time -= Time.deltaTime;
+            timeText.text = time.ToString("N2");
+        } else
         {
-            time += Time.deltaTime;
+            time -= Time.deltaTime;
             timeText.text = time.ToString("N2");
         }
     }
@@ -112,12 +129,15 @@ public class GameManager : MonoBehaviour
         else
         {
             StartCoroutine(CoVerifyMatching(firstCardImage));
+            audioSource.PlayOneShot(fail);
+        
             firstCard.GetComponent<card>().closeCard();
             secondCard.GetComponent<card>().closeCard();
         }
 
         firstCard = null;
         secondCard = null;
+        tryMatchCount++;
     }
 
     private IEnumerator CoVerifyMatching(string cardName, bool isCorrect = false)
@@ -144,6 +164,8 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         endText.SetActive(true);
+        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " try";
+        tryMatchCountText.SetActive(true);
     }
 
     public void retryGame()

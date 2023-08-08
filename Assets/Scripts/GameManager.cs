@@ -25,19 +25,19 @@ public class GameManager : MonoBehaviour
     public AudioSource audioSource;
     public Text matchText;
 
-    [Header("¸£ÅºÀÌ ½ºÇÁ¶óÀÌÆ® »çÀÌÁî ±âÁØ 500x500")]
+    [Header("ë¥´íƒ„ì´ ìŠ¤í”„ë¼ì´íŠ¸ ì‚¬ì´ì¦ˆ ê¸°ì¤€ 500x500")]
     public int rtanSpriteSize = 500;
 
-    [Header("Ä«µå ÀÌÆåÆ® ½Ã°£")]
+    [Header("ì¹´ë“œ ì´í™íŠ¸ ì‹œê°„")]
     public float matchTextTime = 1f;
-    public string unCorrectMessage = "½ÇÆĞ";
+    public string unCorrectMessage = "ì‹¤íŒ¨";
 
 
-    [Header("¸ÅÄª ÄÃ·¯")]
+    [Header("ë§¤ì¹­ ì»¬ëŸ¬")]
     public Color correctColor;
     public Color unCorrectColor;
 
-    [Header("Ä«µå °æ·Î")]
+    [Header("ì¹´ë“œ ê²½ë¡œ")]
     public const string CARD_PATH = "cardImages";
 
     private void Awake()
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         int[] teams = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
         teams = teams.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
 
-        // Æú´õÀÇ ½ºÇÁ¶óÀÌÆ® ¸ğµÎ ºÎ¸£±â
+        // í´ë”ì˜ ìŠ¤í”„ë¼ì´íŠ¸ ëª¨ë‘ ë¶€ë¥´ê¸°
         Sprite[] sprites = Resources.LoadAll<Sprite>(CARD_PATH);
         time = 30f;
         tryMatchCount = 0;
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
 
             cardRenderer.sprite = sprites[teams[i]];
 
-            // ½ºÄÉÀÏ ¼¼ÆÃ
+            // ìŠ¤ì¼€ì¼ ì„¸íŒ…
             Vector3 tempScale = frontTrans.transform.localScale;
             tempScale.x *= rtanSpriteSize / cardRenderer.sprite.rect.width;
             tempScale.y *= rtanSpriteSize / cardRenderer.sprite.rect.height;
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0f;
             endText.SetActive(true);
-            tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " È¸ ½Ãµµ";
+            tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " íšŒ ì‹œë„";
             tryMatchCountText.SetActive(true);
         } else if (time <= 5f) {
             if (!isSpeedUp)
@@ -128,6 +128,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            time -= 1f;
             StartCoroutine(CoVerifyMatching(firstCardImage));
             audioSource.PlayOneShot(fail);
         
@@ -142,13 +143,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator CoVerifyMatching(string cardName, bool isCorrect = false)
     {
-        // ¸ÂÃèÀ» ¶§
+        // ë§ì·„ì„ ë•Œ
         if (isCorrect)
         {
             matchText.text = cardName.Split('_')[0];
             matchText.color = correctColor;
         }
-        // ¾Æ´Ò ¶§
+        // ì•„ë‹ ë•Œ
         else
         {
             matchText.text = unCorrectMessage;
@@ -164,7 +165,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         endText.SetActive(true);
-        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " È¸ ½Ãµµ";
+        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " íšŒ ì‹œë„";
         tryMatchCountText.SetActive(true);
     }
 

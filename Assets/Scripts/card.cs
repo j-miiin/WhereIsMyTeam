@@ -47,9 +47,9 @@ public class card : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void closeCard()
+    public void closeCard(float delayTime)
     {
-        Invoke("closeCardInvoke", 1.0f);
+        Invoke("closeCardInvoke", delayTime);
     }
 
     void closeCardInvoke()

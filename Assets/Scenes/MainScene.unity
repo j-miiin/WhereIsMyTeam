@@ -170,8 +170,8 @@ MonoBehaviour:
   matchTextTime: 0.5
   closeDelayTime: 0.5
   unCorrectMessage: "\uC2E4\uD328"
-  correctColor: {r: 0.78431374, g: 1, b: 0, a: 1}
-  unCorrectColor: {r: 1, g: 0, b: 0, a: 1}
+  correctColor: {r: 0.79559743, g: 1, b: 0.46855342, a: 1}
+  unCorrectColor: {r: 1, g: 0.36078432, b: 0.34509805, a: 1}
   radius: 5
   cardSettingTime: 1
 --- !u!4 &58303204
@@ -947,13 +947,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 407137482}
     m_Modifications:
+    - target: {fileID: 5483752564816745228, guid: 45d20b9ca9548874294ac282a6953988, type: 3}
+      propertyPath: m_Color.b
+      value: 0.69411767
+      objectReference: {fileID: 0}
+    - target: {fileID: 5483752564816745228, guid: 45d20b9ca9548874294ac282a6953988, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5483752564816745228, guid: 45d20b9ca9548874294ac282a6953988, type: 3}
+      propertyPath: m_Color.r
+      value: 0.88235295
+      objectReference: {fileID: 0}
+    - target: {fileID: 5483752564816745228, guid: 45d20b9ca9548874294ac282a6953988, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: a598fb6193b3bd449b85519345762bb9, type: 3}
     - target: {fileID: 5483752564816745230, guid: 45d20b9ca9548874294ac282a6953988, type: 3}
       propertyPath: m_Name
       value: matchText
       objectReference: {fileID: 0}
     - target: {fileID: 5483752564816745230, guid: 45d20b9ca9548874294ac282a6953988, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5483752564816745231, guid: 45d20b9ca9548874294ac282a6953988, type: 3}
       propertyPath: m_Pivot.x

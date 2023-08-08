@@ -19,6 +19,22 @@ public class GameManager : MonoBehaviour
 
     public AudioClip match;
     public AudioSource audioSource;
+    public Text matchText;
+
+    [Header("르탄이 스프라이트 사이즈 기준 500x500")]
+    public int rtanSpriteSize = 500;
+
+    [Header("카드 이펙트 시간")]
+    public float matchTextTime = 1f;
+    public string unCorrectMessage = "실패";
+
+
+    [Header("매칭 컬러")]
+    public Color correctColor;
+    public Color unCorrectColor;
+
+    [Header("카드 경로")]
+    public const string CARD_PATH = "cardImages";
 
     private void Awake()
     {
@@ -30,8 +46,11 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        int[] rtans = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
-        rtans = rtans.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
+        int[] teams = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
+        teams = teams.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
+
+        // 폴더의 스프라이트 모두 부르기
+        Sprite[] sprites = Resources.LoadAll<Sprite>(CARD_PATH);
 
         for (int i = 0; i < 16; i++)
         {
@@ -42,19 +61,28 @@ public class GameManager : MonoBehaviour
             float y = (i % 4) * 1.4f - 3.0f;
             newCard.transform.position = new Vector3(x, y, 0);
 
-            string rtanName = "rtan" + rtans[i].ToString();
-            newCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(rtanName);
+            Transform frontTrans = newCard.transform.Find("front");
+            SpriteRenderer cardRenderer = frontTrans.GetComponent<SpriteRenderer>();
+
+            cardRenderer.sprite = sprites[teams[i]];
+
+            // 스케일 세팅
+            Vector3 tempScale = frontTrans.transform.localScale;
+            tempScale.x *= rtanSpriteSize / cardRenderer.sprite.rect.width;
+            tempScale.y *= rtanSpriteSize / cardRenderer.sprite.rect.height;
+            frontTrans.localScale = tempScale;
         }
     }
 
     // Update is called once per frame
     void Update()
-    {     
+    {
         if (time > 30f)
         {
             Time.timeScale = 0f;
             endText.SetActive(true);
-        } else
+        }
+        else
         {
             time += Time.deltaTime;
             timeText.text = time.ToString("N2");
@@ -68,6 +96,8 @@ public class GameManager : MonoBehaviour
 
         if (firstCardImage == secondCardImage)
         {
+            StartCoroutine(CoVerifyMatching(firstCardImage, true));
+
             audioSource.PlayOneShot(match);
 
             firstCard.GetComponent<card>().destroyCard();
@@ -78,14 +108,36 @@ public class GameManager : MonoBehaviour
             {
                 Invoke("GameEnd", 1f);
             }
-        } else
+        }
+        else
         {
+            StartCoroutine(CoVerifyMatching(firstCardImage));
             firstCard.GetComponent<card>().closeCard();
             secondCard.GetComponent<card>().closeCard();
         }
 
         firstCard = null;
         secondCard = null;
+    }
+
+    private IEnumerator CoVerifyMatching(string cardName, bool isCorrect = false)
+    {
+        // 맞췄을 때
+        if (isCorrect)
+        {
+            matchText.text = cardName.Split('_')[0];
+            matchText.color = correctColor;
+        }
+        // 아닐 때
+        else
+        {
+            matchText.text = unCorrectMessage;
+            matchText.color = unCorrectColor;
+        }
+
+        matchText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(matchTextTime);
+        matchText.gameObject.SetActive(false);
     }
 
     void GameEnd()

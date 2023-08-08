@@ -70,12 +70,6 @@ public class GameManager : MonoBehaviour
         time = 30f;
         timeText.text = time.ToString("N2");
 
-        int[] teams = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
-        teams = teams.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
-
-        
-        // 폴더의 스프라이트 모두 부르기
-        Sprite[] sprites = Resources.LoadAll<Sprite>(CARD_PATH);
         tryMatchCount = 0;
         time = PLAY_TIME;
         tryMatchCount = 0;
@@ -83,29 +77,38 @@ public class GameManager : MonoBehaviour
         score = 0;
         countdownTime = COUNTDOWN_TIME;
 
-        for (int i = 0; i < 16; i++)
-        {
-            GameObject newCard = Instantiate(card);
-            newCard.transform.parent = GameObject.Find("cards").transform;
+        stageManager.S.selectStage(2);
 
-            // 큰 원의 반지름 만큼의 랜덤 위치 값
-            newCard.transform.position = Random.onUnitSphere * radius;
-            float x = (i / 4) * 1.4f - 2.1f;
-            float y = (i % 4) * 1.4f - 3.0f;
+        //int[] teams = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
+        //teams = teams.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
 
-            StartCoroutine(CoMoveOffsetPosition(newCard.transform, new Vector3(x, y, 0)));
+        
+        //// 폴더의 스프라이트 모두 부르기
+        //Sprite[] sprites = Resources.LoadAll<Sprite>(CARD_PATH);
+        
+        //for (int i = 0; i < 16; i++)
+        //{
+        //    GameObject newCard = Instantiate(card);
+        //    newCard.transform.parent = GameObject.Find("cards").transform;
 
-            Transform frontTrans = newCard.transform.Find("front");
-            SpriteRenderer cardRenderer = frontTrans.GetComponent<SpriteRenderer>();
+        //    // 큰 원의 반지름 만큼의 랜덤 위치 값
+        //    newCard.transform.position = Random.onUnitSphere * radius;
+        //    float x = (i / 4) * 1.4f - 2.1f;
+        //    float y = (i % 4) * 1.4f - 3.0f;
 
-            cardRenderer.sprite = sprites[teams[i]];
+        //    StartCoroutine(CoMoveOffsetPosition(newCard.transform, new Vector3(x, y, 0)));
 
-            // 스케일 세팅
-            Vector3 tempScale = frontTrans.transform.localScale;
-            tempScale.x *= rtanSpriteSize / cardRenderer.sprite.rect.width;
-            tempScale.y *= rtanSpriteSize / cardRenderer.sprite.rect.height;
-            frontTrans.localScale = tempScale;
-        }
+        //    Transform frontTrans = newCard.transform.Find("front");
+        //    SpriteRenderer cardRenderer = frontTrans.GetComponent<SpriteRenderer>();
+
+        //    cardRenderer.sprite = sprites[teams[i]];
+
+        //    // 스케일 세팅
+        //    Vector3 tempScale = frontTrans.transform.localScale;
+        //    tempScale.x *= rtanSpriteSize / cardRenderer.sprite.rect.width;
+        //    tempScale.y *= rtanSpriteSize / cardRenderer.sprite.rect.height;
+        //    frontTrans.localScale = tempScale;
+        //}
 
         yield return new WaitForSeconds(cardSettingTime);
 

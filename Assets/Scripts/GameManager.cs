@@ -11,9 +11,15 @@ public class GameManager : MonoBehaviour
     public GameObject card;
     public GameObject endText;
     public GameObject tryMatchCountText;
+    public GameObject scoreText;
+    public GameObject resultPanel;
     float time;
     int tryMatchCount;
+    int score, minTryCount;
     bool isSpeedUp;
+    bool isSuccess;
+
+    const int MAX_TRYCOUNT_SCORE = 1000;
 
     public static GameManager I;
 
@@ -57,7 +63,9 @@ public class GameManager : MonoBehaviour
         Sprite[] sprites = Resources.LoadAll<Sprite>(CARD_PATH);
         time = 30f;
         tryMatchCount = 0;
-
+        isSuccess = false;
+        score = 0;
+        minTryCount = teams.Length / 2;
 
 
         for (int i = 0; i < 16; i++)
@@ -87,10 +95,11 @@ public class GameManager : MonoBehaviour
         if (time <= 0f)
         {
             Time.timeScale = 0f;
-            endText.SetActive(true);
-            tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " 회 시도";
-            tryMatchCountText.SetActive(true);
-        } else if (time <= 5f) {
+            setResultPanel();
+            //endText.SetActive(true);
+            //tryMatchCountText.SetActive(true);
+        }
+        else if (time <= 5f) {
             if (!isSpeedUp)
             {
                 timeText.color = Color.red;
@@ -123,6 +132,7 @@ public class GameManager : MonoBehaviour
             int cardsLeft = GameObject.Find("cards").transform.childCount;
             if (cardsLeft == 2)
             {
+                isSuccess = true;
                 Invoke("GameEnd", 1f);
             }
         }
@@ -163,13 +173,28 @@ public class GameManager : MonoBehaviour
     void GameEnd()
     {
         Time.timeScale = 0f;
-        endText.SetActive(true);
-        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " 회 시도";
-        tryMatchCountText.SetActive(true);
+        if (isSuccess)
+        {
+            score += (int)time * 100;
+            int tryCntScore = MAX_TRYCOUNT_SCORE - ((tryMatchCount - 8) * 50);
+            if (tryCntScore > 0) score += tryCntScore;
+        }
+        setResultPanel();
+        //endText.SetActive(true);
+        //tryMatchCountText.SetActive(true);
     }
 
     public void retryGame()
     {
         SceneManager.LoadScene("MainScene");
+    }
+
+    private void setResultPanel()
+    {
+        // 게임 종료시 나오는 결과 패널을 set
+        resultPanel.SetActive(true);    // 패널 활성화
+        endText.GetComponent<Text>().text = isSuccess ? "성공!" : "실패!";  // 성공 or 실패 텍스트 
+        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " 회 시도";  // 매칭 시도 횟수 텍스트
+        scoreText.GetComponent<Text>().text = "score " + score; // 점수 텍스트 
     }
 }

@@ -236,6 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 2328372552341567236}
   flip: {fileID: 8300000, guid: 05f68118c9a20904f8eedefc06bb3e99, type: 3}
+  countdown: {fileID: 8300000, guid: 243f9884f8d69794b8c98a86bebf90b1, type: 3}
   audioSource: {fileID: 3214494575385744369}
 --- !u!114 &-6547253870454891204
 MonoBehaviour:

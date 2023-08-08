@@ -242,6 +242,10 @@ PrefabInstance:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 12800000, guid: 2e4dce086a61bb34c895ac900dfe9795, type: 3}
+    - target: {fileID: 8409792265397577793, guid: c88725e6205d20b47838c63431b65902, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3eba2afdc4b98724cbc4ed280d834c2a, type: 3}
     - target: {fileID: 8409792266378348688, guid: c88725e6205d20b47838c63431b65902, type: 3}
       propertyPath: m_Text
       value: "\uAD6C\uD574\uC918 \uD300\uC988!"

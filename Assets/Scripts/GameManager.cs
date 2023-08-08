@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
 
         int[] teams = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
         teams = teams.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
-
+        
         // 폴더의 스프라이트 모두 부르기
         Sprite[] sprites = Resources.LoadAll<Sprite>(CARD_PATH);
         time = 30f;
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0f;
             endText.SetActive(true);
-            tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " 회 시도";
+            tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " try";
             tryMatchCountText.SetActive(true);
         } else if (time <= 5f) {
             if (!isSpeedUp)
@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         endText.SetActive(true);
-        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " 회 시도";
+        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " try";
         tryMatchCountText.SetActive(true);
     }
 

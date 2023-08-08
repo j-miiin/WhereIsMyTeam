@@ -237,6 +237,8 @@ MonoBehaviour:
   anim: {fileID: 2328372552341567236}
   flip: {fileID: 8300000, guid: 05f68118c9a20904f8eedefc06bb3e99, type: 3}
   audioSource: {fileID: 3214494575385744369}
+  flipRotation: 90
+  flipSpeed: 200
 --- !u!114 &-6547253870454891204
 MonoBehaviour:
   m_ObjectHideFlags: 0

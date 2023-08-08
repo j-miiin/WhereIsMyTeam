@@ -275,6 +275,8 @@ MonoBehaviour:
   unCorrectMessage: "\uC2E4\uD328"
   correctColor: {r: 0, g: 0, b: 0, a: 0}
   unCorrectColor: {r: 0, g: 0, b: 0, a: 0}
+  radius: 5
+  cardSettingTime: 1
 --- !u!4 &58303204
 Transform:
   m_ObjectHideFlags: 0

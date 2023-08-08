@@ -35,20 +35,27 @@ public class GameManager : MonoBehaviour
     public AudioSource audioSource;
     public Text matchText;
 
-    [Header("¸£ÅºÀÌ ½ºÇÁ¶óÀÌÆ® »çÀÌÁî ±âÁØ 500x500")]
+    [Header("ë¥´íƒ„ì´ ìŠ¤í”„ë¼ì´íŠ¸ ì‚¬ì´ì¦ˆ ê¸°ì¤€ 500x500")]
     public int rtanSpriteSize = 500;
 
-    [Header("Ä«µå ÀÌÆåÆ® ½Ã°£")]
+    [Header("ì¹´ë“œ ì´í™íŠ¸ ì‹œê°„")]
     public float matchTextTime = 1f;
-    public string unCorrectMessage = "½ÇÆĞ";
+    public string unCorrectMessage = "ì‹¤íŒ¨";
 
 
-    [Header("¸ÅÄª ÄÃ·¯")]
+    [Header("ë§¤ì¹­ ì»¬ëŸ¬")]
     public Color correctColor;
     public Color unCorrectColor;
 
-    [Header("Ä«µå °æ·Î")]
+    [Header("ì¹´ë“œ ê²½ë¡œ")]
     public const string CARD_PATH = "cardImages";
+
+    [Header("ìŠ¤í° ë˜ëŠ” ê¸°ì¤€ ì› ë°˜ì§€ë¦„")]
+    public float radius = 5f;
+
+    [Header("ì¹´ë“œ ì„¸íŒ…")]
+    public float cardSettingTime = 1f;
+    bool isSettings = true;
 
     private void Awake()
     {
@@ -56,15 +63,19 @@ public class GameManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
         Time.timeScale = 1f;
+        time = 30f;
+        timeText.text = time.ToString("N2");
 
         int[] teams = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
         teams = teams.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
-
-        // Æú´õÀÇ ½ºÇÁ¶óÀÌÆ® ¸ğµÎ ºÎ¸£±â
+        
+        // í´ë”ì˜ ìŠ¤í”„ë¼ì´íŠ¸ ëª¨ë‘ ë¶€ë¥´ê¸°
         Sprite[] sprites = Resources.LoadAll<Sprite>(CARD_PATH);
+   
+        countdownTime = COUNTDOWN_TIME;
         time = PLAY_TIME;
         tryMatchCount = 0;
         isSuccess = false;
@@ -76,29 +87,76 @@ public class GameManager : MonoBehaviour
         {
             GameObject newCard = Instantiate(card);
             newCard.transform.parent = GameObject.Find("cards").transform;
+
+            // í° ì›ì˜ ë°˜ì§€ë¦„ ë§Œí¼ì˜ ëœë¤ ìœ„ì¹˜ ê°’
+            newCard.transform.position = Random.onUnitSphere * radius;
             float x = (i / 4) * 1.4f - 2.1f;
             float y = (i % 4) * 1.4f - 3.0f;
-            newCard.transform.position = new Vector3(x, y, 0);
+
+            StartCoroutine(CoMoveOffsetPosition(newCard.transform, new Vector3(x, y, 0)));
 
             Transform frontTrans = newCard.transform.Find("front");
             SpriteRenderer cardRenderer = frontTrans.GetComponent<SpriteRenderer>();
 
             cardRenderer.sprite = sprites[teams[i]];
 
-            // ½ºÄÉÀÏ ¼¼ÆÃ
+            // ìŠ¤ì¼€ì¼ ì„¸íŒ…
             Vector3 tempScale = frontTrans.transform.localScale;
             tempScale.x *= rtanSpriteSize / cardRenderer.sprite.rect.width;
             tempScale.y *= rtanSpriteSize / cardRenderer.sprite.rect.height;
             frontTrans.localScale = tempScale;
         }
+
+        yield return new WaitForSeconds(cardSettingTime);
+
+        isSettings = false;
     }
 
-    // Update is called once per frame
+    IEnumerator CoMoveOffsetPosition(Transform cardTrans, Vector3 destination)
+    {
+        Vector3 offsetPos = cardTrans.position;
+        Vector3 targetPos = Vector3.zero;
+        float ratio = 0f;
+        while (ratio < cardSettingTime)
+        {
+            ratio += Time.deltaTime;
+            targetPos = Vector3.Lerp(offsetPos, destination, ratio / cardSettingTime);
+
+            // ì›ì˜ ë°©ì •ì‹ (x-a)^2 + (y-b)^2 = r^2
+            float halfRadius = radius * 0.5f;
+            // ë°˜ì§€ë¦„ì˜ ì œê³±
+            float powRadius = Mathf.Pow(halfRadius, 2);
+            // í˜„ì¬ xìœ„ì¹˜ê°€ ëª©í‘œì˜ ì™¼ìª½ì¸ì§€ ì˜¤ë¥¸ìª½ì¸ì§€
+            bool isDestinationXLow = targetPos.x > destination.x;
+            // ì˜¤ë¥¸ìª½ì´ë¼ë©´ ë°˜ì§€ë¦„ ë¹¼ì£¼ê¸° ì™¼ìª½ì´ë¼ë©´ ë°˜ì§€ë¦„ ë”í•´ì£¼ê¸° (ì›ì˜ ì„¼í„° xì¢Œí‘œê°€ ë°˜ì§€ë¦„ë§Œí¼ ì°¨ì´ë‚˜ë‹ˆê¹Œ)
+            float powXPos = isDestinationXLow ? Mathf.Pow(targetPos.x - destination.x - halfRadius, 2) 
+                : Mathf.Pow(targetPos.x - destination.x + halfRadius, 2);
+            // yì¢Œí‘œ
+            float yPos = Mathf.Sqrt(Mathf.Abs(powRadius - powXPos));
+
+            // í˜„ì¬ ìœ„ì¹˜ì—ì„œ ëª©í‘œì§€ì ê¹Œì§€ì˜ ì„ ë¶„(ì›ì˜ ì§€ë¦„) ìœ„ì˜ ì  + ì› ì¤‘ì‹¬ìœ¼ë¡œë¶€í„° yì¢Œí‘œ
+            targetPos.y += yPos;
+            cardTrans.position = targetPos;
+
+            yield return null;
+        }
+    }
+
     void Update()
     {
+        if (isSettings)
+        {
+            return;
+        }
+
         if (time <= 0f)
         {
             Time.timeScale = 0f;
+            endText.SetActive(true);
+            tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " try";
+            tryMatchCountText.SetActive(true);
+        } else if (time <= 5f) {
+
             setResultPanel();
             //endText.SetActive(true);
             //tryMatchCountText.SetActive(true);
@@ -176,13 +234,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator CoVerifyMatching(string cardName, bool isCorrect = false)
     {
-        // ¸ÂÃèÀ» ¶§
+        // ë§ì·„ì„ ë•Œ
         if (isCorrect)
         {
             matchText.text = cardName.Split('_')[0];
             matchText.color = correctColor;
         }
-        // ¾Æ´Ò ¶§
+        // ì•„ë‹ ë•Œ
         else
         {
             matchText.text = unCorrectMessage;
@@ -197,6 +255,10 @@ public class GameManager : MonoBehaviour
     void GameEnd()
     {
         Time.timeScale = 0f;
+        endText.SetActive(true);
+        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " try";
+        tryMatchCountText.SetActive(true);
+
         if (isSuccess)
         {
             score += (int)time * 100;
@@ -215,10 +277,10 @@ public class GameManager : MonoBehaviour
 
     private void setResultPanel()
     {
-        // °ÔÀÓ Á¾·á½Ã ³ª¿À´Â °á°ú ÆĞ³ÎÀ» set
-        resultPanel.SetActive(true);    // ÆĞ³Î È°¼ºÈ­
-        endText.GetComponent<Text>().text = isSuccess ? "¼º°ø!" : "½ÇÆĞ!";  // ¼º°ø or ½ÇÆĞ ÅØ½ºÆ® 
-        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " È¸ ½Ãµµ";  // ¸ÅÄª ½Ãµµ È½¼ö ÅØ½ºÆ®
-        scoreText.GetComponent<Text>().text = "score " + score; // Á¡¼ö ÅØ½ºÆ® 
+        // ê²Œì„ ì¢…ë£Œì‹œ ë‚˜ì˜¤ëŠ” ê²°ê³¼ íŒ¨ë„ì„ set
+        resultPanel.SetActive(true);    // íŒ¨ë„ í™œì„±í™”
+        endText.GetComponent<Text>().text = isSuccess ? "ì„±ê³µ!" : "ì‹¤íŒ¨!";  // ì„±ê³µ or ì‹¤íŒ¨ í…ìŠ¤íŠ¸ 
+        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " íšŒ ì‹œë„";  // ë§¤ì¹­ ì‹œë„ íšŸìˆ˜ í…ìŠ¤íŠ¸
+        scoreText.GetComponent<Text>().text = "score " + score; // ì ìˆ˜ í…ìŠ¤íŠ¸ 
     }
 }

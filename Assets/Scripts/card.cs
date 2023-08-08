@@ -6,15 +6,12 @@ public class card : MonoBehaviour
 {
     public Animator anim;
     public AudioClip flip;
-    public AudioClip countdown;
     public AudioSource audioSource;
-    float time = 5f;
-    bool isSecondFlip;
 
     // Start is called before the first frame update
     void Start()
     {
-        isSecondFlip = false;
+        
     }
 
     // Update is called once per frame
@@ -38,24 +35,6 @@ public class card : MonoBehaviour
             GameManager.I.secondCard = gameObject;
             GameManager.I.isMatched();
         }
-
-        //while (time >= 0f)
-        //{
-        //    time -= 1f;
-        //    audioSource.PlayOneShot(countdown);
-
-        //    if (GameManager.I.secondCard != null)
-        //    {
-        //        isSecondFlip = true;
-        //        break;
-        //    }
-        //}
-        //if (!isSecondFlip && time <= 0f)
-        //{
-        //    Debug.Log(isSecondFlip);
-        //    GameManager.I.firstCard.GetComponent<card>().closeCard();
-        //    GameManager.I.firstCard = null;
-        //}
     }
 
     public void destroyCard()
@@ -68,9 +47,9 @@ public class card : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void closeCard()
+    public void closeCard(float delayTime)
     {
-        Invoke("closeCardInvoke", 1.0f);
+        Invoke("closeCardInvoke", delayTime);
     }
 
     void closeCardInvoke()

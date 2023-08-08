@@ -13,13 +13,17 @@ public class GameManager : MonoBehaviour
     public GameObject tryMatchCountText;
     public GameObject scoreText;
     public GameObject resultPanel;
+    public GameObject countdownText;
     float time;
+    float countdownTime;
     int tryMatchCount;
-    int score, minTryCount;
+    int score;
     bool isSpeedUp;
     bool isSuccess;
 
     const int MAX_TRYCOUNT_SCORE = 1000;
+    const float PLAY_TIME = 30f;
+    const float COUNTDOWN_TIME = 3f;
 
     public static GameManager I;
 
@@ -61,11 +65,11 @@ public class GameManager : MonoBehaviour
 
         // 폴더의 스프라이트 모두 부르기
         Sprite[] sprites = Resources.LoadAll<Sprite>(CARD_PATH);
-        time = 30f;
+        time = PLAY_TIME;
         tryMatchCount = 0;
         isSuccess = false;
         score = 0;
-        minTryCount = teams.Length / 2;
+        countdownTime = COUNTDOWN_TIME;
 
 
         for (int i = 0; i < 16; i++)
@@ -113,6 +117,26 @@ public class GameManager : MonoBehaviour
             time -= Time.deltaTime;
             timeText.text = time.ToString("N2");
         }
+
+        if (firstCard != null && secondCard == null)
+        {
+            countdownTime -= Time.deltaTime;
+            countdownText.SetActive(true);
+            countdownText.GetComponent<Text>().text = countdownTime.ToString("N0");
+
+            if (countdownTime < 1f)
+            {
+                firstCard.GetComponent<card>().closeCard(0f);
+                firstCard = null;
+                audioSource.PlayOneShot(fail);
+                countdownText.SetActive(false);
+                countdownTime = COUNTDOWN_TIME;
+            }
+        } else
+        {
+            countdownTime = COUNTDOWN_TIME;
+            countdownText.SetActive(false);
+        }
     }
 
     public void isMatched()
@@ -141,8 +165,8 @@ public class GameManager : MonoBehaviour
             StartCoroutine(CoVerifyMatching(firstCardImage));
             audioSource.PlayOneShot(fail);
         
-            firstCard.GetComponent<card>().closeCard();
-            secondCard.GetComponent<card>().closeCard();
+            firstCard.GetComponent<card>().closeCard(1.0f);
+            secondCard.GetComponent<card>().closeCard(1.0f);
         }
 
         firstCard = null;

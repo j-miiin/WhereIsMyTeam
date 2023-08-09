@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &157391726 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2700587630089696960, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
+  m_PrefabInstance: {fileID: 1448657697}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &238924978
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,14 +298,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2700587629437119777, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
+      propertyPath: stageSelectManagerObject
+      value: 
+      objectReference: {fileID: 1367285380}
+    - target: {fileID: 2700587629836503132, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2700587631213342408, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
+      propertyPath: selectedStageText
+      value: 
+      objectReference: {fileID: 157391726}
     - target: {fileID: 5082819366358286293, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
       propertyPath: lock_img
       value: 
-      objectReference: {fileID: 1448657698}
+      objectReference: {fileID: 0}
     - target: {fileID: 5082819366358286293, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
       propertyPath: stage2Btn
       value: 
-      objectReference: {fileID: 1448657699}
+      objectReference: {fileID: 0}
     - target: {fileID: 5082819366358286293, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
       propertyPath: stageSelectManagerObject
       value: 
@@ -302,11 +325,11 @@ PrefabInstance:
     - target: {fileID: 5082819366380004094, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
       propertyPath: lock_img
       value: 
-      objectReference: {fileID: 1448657698}
+      objectReference: {fileID: 0}
     - target: {fileID: 5082819366380004094, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
       propertyPath: stage2Btn
       value: 
-      objectReference: {fileID: 1448657699}
+      objectReference: {fileID: 0}
     - target: {fileID: 5082819366380004094, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
       propertyPath: stageSelectManagerObject
       value: 
@@ -314,11 +337,11 @@ PrefabInstance:
     - target: {fileID: 5082819366901983805, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
       propertyPath: lock_img
       value: 
-      objectReference: {fileID: 1448657698}
+      objectReference: {fileID: 0}
     - target: {fileID: 5082819366901983805, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
       propertyPath: stage2Btn
       value: 
-      objectReference: {fileID: 1448657699}
+      objectReference: {fileID: 0}
     - target: {fileID: 5082819366901983805, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
       propertyPath: stageSelectManagerObject
       value: 
@@ -413,16 +436,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
---- !u!1 &1448657698 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7342394286014671551, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
-  m_PrefabInstance: {fileID: 1448657697}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1448657699 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5082819366358286312, guid: 654471b04ed695e4f95ccbea34b202b3, type: 3}
-  m_PrefabInstance: {fileID: 1448657697}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1704972604
 GameObject:
   m_ObjectHideFlags: 0

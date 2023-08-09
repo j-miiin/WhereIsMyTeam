@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class nextStageBtn : MonoBehaviour
+public class goHomeBtn : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -17,9 +17,8 @@ public class nextStageBtn : MonoBehaviour
         
     }
 
-    public void goNextStage()
+    public void goHome()
     {
-        stageSelectManager.SSM.setStage(2);
-        SceneManager.LoadScene("kjm_nextStageScene");
+        SceneManager.LoadScene("StartScene");
     }
 }

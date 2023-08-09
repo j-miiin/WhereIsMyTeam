@@ -10,7 +10,6 @@ public class startBtn : MonoBehaviour
     public GameObject selectStagePanel;
     public GameObject stage2Btn;
     public GameObject lock_img;
-    public Text selectedStageText;
 
     const string LOCKED_STAGE = "lockedStage";
 
@@ -20,16 +19,21 @@ public class startBtn : MonoBehaviour
         if (!PlayerPrefs.HasKey(LOCKED_STAGE))
         {
             PlayerPrefs.SetInt(LOCKED_STAGE, 0);
-        }
+        }  
+        Debug.Log("This is StartBtn " + PlayerPrefs.GetInt(LOCKED_STAGE));
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (PlayerPrefs.HasKey(LOCKED_STAGE) && PlayerPrefs.GetInt(LOCKED_STAGE) == 1)
+        if (PlayerPrefs.GetInt(LOCKED_STAGE) == 1)  // stage 1 클리어하면 stage2 버튼 활성화
         {
-            stage2Btn.transform.Find("Button").GetComponent<Button>().interactable = true;
+            stage2Btn.GetComponent<Button>().interactable = true;
             lock_img.SetActive(false);
+        } else
+        {
+            stage2Btn.GetComponent<Button>().interactable = false;
+            lock_img.SetActive(true);
         }
     }
 
@@ -40,15 +44,13 @@ public class startBtn : MonoBehaviour
 
     public void selectStage1()
     {
-        stageSelectManager.SSM.setStage(1);
-        selectedStageText.text = "STAGE 1";
+        stageSelectManager.SSM.setStage(1);  
         selectStagePanel.SetActive(false);
     }
 
     public void selectStage2()
     {
-        stageSelectManager.SSM.setStage(2);
-        selectedStageText.text = "STAGE 2";
+        stageSelectManager.SSM.setStage(2); 
         selectStagePanel.SetActive(false);
     }
 }

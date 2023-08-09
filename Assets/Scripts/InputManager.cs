@@ -25,7 +25,7 @@ public class InputManager : MonoBehaviour
             touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
-                GameObject particle = touchPool.GetObject();
+                TouchParticle particle = ObjectPooler.I.touchPool.GetObject();
                 particle.transform.position = mainCam.ScreenToWorldPoint(touch.position);
             }
         }

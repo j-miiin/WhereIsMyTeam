@@ -18,12 +18,15 @@ public class GameManager : MonoBehaviour
     float countdownTime;
     int tryMatchCount;
     int score;
+    int curStage = 0;
     bool isSpeedUp;
     bool isSuccess;
 
     const int MAX_TRYCOUNT_SCORE = 1000;
     const float PLAY_TIME = 30f;
     const float COUNTDOWN_TIME = 3f;
+
+    const string LOCKED_STAGE = "lockedStage";
 
     public static GameManager I;
 
@@ -76,16 +79,18 @@ public class GameManager : MonoBehaviour
         isSuccess = false;
         score = 0;
         countdownTime = COUNTDOWN_TIME;
+        curStage = stageSelectManager.SSM.getStage();
 
-        stageManager.S.selectStage(2);
+        stageManager.S.selectStage(curStage);
+        //stageManager.S.selectStage(2);
 
         //int[] teams = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
         //teams = teams.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
 
-        
+
         //// 폴더의 스프라이트 모두 부르기
         //Sprite[] sprites = Resources.LoadAll<Sprite>(CARD_PATH);
-        
+
         //for (int i = 0; i < 16; i++)
         //{
         //    GameObject newCard = Instantiate(card);
@@ -103,7 +108,8 @@ public class GameManager : MonoBehaviour
 
         //    cardRenderer.sprite = sprites[teams[i]];
 
-        //    // 스케일 세팅
+        //    // 스케일 세팅
+
         //    Vector3 tempScale = frontTrans.transform.localScale;
         //    tempScale.x *= rtanSpriteSize / cardRenderer.sprite.rect.width;
         //    tempScale.y *= rtanSpriteSize / cardRenderer.sprite.rect.height;
@@ -115,35 +121,35 @@ public class GameManager : MonoBehaviour
         isSettings = false;
     }
 
-    IEnumerator CoMoveOffsetPosition(Transform cardTrans, Vector3 destination)
-    {
-        Vector3 offsetPos = cardTrans.position;
-        Vector3 targetPos = Vector3.zero;
-        float ratio = 0f;
-        while (ratio < cardSettingTime)
-        {
-            ratio += Time.deltaTime;
-            targetPos = Vector3.Lerp(offsetPos, destination, ratio / cardSettingTime);
+    //IEnumerator CoMoveOffsetPosition(Transform cardTrans, Vector3 destination)
+    //{
+    //    Vector3 offsetPos = cardTrans.position;
+    //    Vector3 targetPos = Vector3.zero;
+    //    float ratio = 0f;
+    //    while (ratio < cardSettingTime)
+    //    {
+    //        ratio += Time.deltaTime;
+    //        targetPos = Vector3.Lerp(offsetPos, destination, ratio / cardSettingTime);
 
-            // 원의 방정식 (x-a)^2 + (y-b)^2 = r^2
-            float halfRadius = radius * 0.5f;
-            // 반지름의 제곱
-            float powRadius = Mathf.Pow(halfRadius, 2);
-            // 현재 x위치가 목표의 왼쪽인지 오른쪽인지
-            bool isDestinationXLow = targetPos.x > destination.x;
-            // 오른쪽이라면 반지름 빼주기 왼쪽이라면 반지름 더해주기 (원의 센터 x좌표가 반지름만큼 차이나니까)
-            float powXPos = isDestinationXLow ? Mathf.Pow(targetPos.x - destination.x - halfRadius, 2) 
-                : Mathf.Pow(targetPos.x - destination.x + halfRadius, 2);
-            // y좌표
-            float yPos = Mathf.Sqrt(Mathf.Abs(powRadius - powXPos));
+    //        // 원의 방정식 (x-a)^2 + (y-b)^2 = r^2
+    //        float halfRadius = radius * 0.5f;
+    //        // 반지름의 제곱
+    //        float powRadius = Mathf.Pow(halfRadius, 2);
+    //        // 현재 x위치가 목표의 왼쪽인지 오른쪽인지
+    //        bool isDestinationXLow = targetPos.x > destination.x;
+    //        // 오른쪽이라면 반지름 빼주기 왼쪽이라면 반지름 더해주기 (원의 센터 x좌표가 반지름만큼 차이나니까)
+    //        float powXPos = isDestinationXLow ? Mathf.Pow(targetPos.x - destination.x - halfRadius, 2) 
+    //            : Mathf.Pow(targetPos.x - destination.x + halfRadius, 2);
+    //        // y좌표
+    //        float yPos = Mathf.Sqrt(Mathf.Abs(powRadius - powXPos));
 
-            // 현재 위치에서 목표지점까지의 선분(원의 지름) 위의 점 + 원 중심으로부터 y좌표
-            targetPos.y += yPos;
-            cardTrans.position = targetPos;
+    //        // 현재 위치에서 목표지점까지의 선분(원의 지름) 위의 점 + 원 중심으로부터 y좌표
+    //        targetPos.y += yPos;
+    //        cardTrans.position = targetPos;
 
-            yield return null;
-        }
-    }
+    //        yield return null;
+    //    }
+    //}
 
     void Update()
     {
@@ -251,15 +257,17 @@ public class GameManager : MonoBehaviour
     void GameEnd()
     {
         Time.timeScale = 0f;
-        endText.SetActive(true);
-        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + "  ";
-        tryMatchCountText.SetActive(true);
 
         if (isSuccess)
         {
             score += (int)time * 100;
             int tryCntScore = MAX_TRYCOUNT_SCORE - ((tryMatchCount - 8) * 50);
             if (tryCntScore > 0) score += tryCntScore;
+
+            if (PlayerPrefs.HasKey(LOCKED_STAGE))
+            {
+                PlayerPrefs.SetInt(LOCKED_STAGE, curStage);
+            }
         }
         setResultPanel();
     }

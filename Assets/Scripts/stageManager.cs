@@ -19,6 +19,12 @@ public class stageManager : MonoBehaviour
     [Header("카드 세팅")]
     public float cardSettingTime = 1f;
 
+    [Header("스테이지 카드 사이즈")]
+    public Dictionary<int, float> stageCardSizeDict = new Dictionary<int, float>();
+
+    [Header("생성된 카드들")]
+    List<card> cards = new List<card>();
+
     public static stageManager S;
 
     const int STAGE_1 = 16;
@@ -45,6 +51,7 @@ public class stageManager : MonoBehaviour
     {
         if (stage == 1)
         {
+            stageCardSizeDict.Add(stage, 1);
             int[] teams = new int[STAGE_1];
             for (int i = 0, j = 0; i < STAGE_1 - 1; i += 2, j++)
             {
@@ -79,10 +86,13 @@ public class stageManager : MonoBehaviour
                 tempScale.x *= rtanSpriteSize / cardRenderer.sprite.rect.width;
                 tempScale.y *= rtanSpriteSize / cardRenderer.sprite.rect.height;
                 frontTrans.localScale = tempScale;
+
+                cards.Add(newCard.GetComponent<card>());
             }
         }
         else if (stage == 2)
         {
+            stageCardSizeDict.Add(stage, 0.6f);
             int[] teams = new int[STAGE_2];
             for (int i = 0, j = 0; i < STAGE_2 - 1; i += 2, j++)
             {
@@ -104,7 +114,7 @@ public class stageManager : MonoBehaviour
                 float x = (i / 6) * 1.4f * 0.6f - 2.1f;
                 float y = (i % 6) * 1.4f * 0.6f - 2.8f;
 
-                newCard.transform.Find("back").transform.localScale *= 0.6f;
+                newCard.transform.Find("back").transform.localScale *= stageCardSizeDict[stage];
 
                 StartCoroutine(CoMoveOffsetPosition(newCard.transform, new Vector3(x, y, 0)));
 
@@ -119,11 +129,27 @@ public class stageManager : MonoBehaviour
                 tempScale.x *= (rtanSpriteSize / cardRenderer.sprite.rect.width) * 0.6f;
                 tempScale.y *= (rtanSpriteSize / cardRenderer.sprite.rect.height) * 0.6f; 
                 frontTrans.localScale = tempScale;
+
+                cards.Add(newCard.GetComponent<card>());
             }
         }
 
+
     }
 
+    public void SetInActiveCards()
+    {
+        foreach (var card in cards)
+        {
+            card.SetButtonInactive();
+        }
+    }
+
+    public void RemoveCard(card card)
+    {
+        cards.Remove(card);
+    }
+    
     IEnumerator CoMoveOffsetPosition(Transform cardTrans, Vector3 destination)
     {
         Vector3 offsetPos = cardTrans.position;

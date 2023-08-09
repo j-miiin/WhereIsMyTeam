@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class card : MonoBehaviour
 {
@@ -16,9 +17,13 @@ public class card : MonoBehaviour
     Transform frontTransform;
     Transform backTransform;
 
+    [Header("Button")]
+    Button clickBtn;
+
     // Start is called before the first frame update
     void Start()
     {
+        clickBtn = GetComponent<Button>();
         frontTransform = transform.Find("front");
         backTransform = transform.Find("back");
     }
@@ -48,17 +53,27 @@ public class card : MonoBehaviour
 
     public void destroyCard()
     {
+        
+
         Invoke("destroyCardInvoke", 1.0f);
     }
 
     void destroyCardInvoke()
     {
+        // 성공 시 폭발 연출
+        ObjectPooler.I.explosionPool.GetObject().transform.position = transform.position;
+        stageManager.S.RemoveCard(this);
         Destroy(gameObject);
     }
 
     public void closeCard(float delayTime)
     {
         Invoke("closeCardInvoke", delayTime);
+    }
+
+    public void SetButtonInactive()
+    {
+        clickBtn.interactable = false;
     }
 
     void closeCardInvoke()

@@ -53,7 +53,7 @@ public class stageSelectManager : MonoBehaviour
         }
         else if (stage == 2)
         {
-            Fade("kjm_nextStageScene");
+            Fade("Stage2Scene");
         }
     }
 

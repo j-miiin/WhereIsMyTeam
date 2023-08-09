@@ -14,7 +14,10 @@ public class ObjectPooler : MonoBehaviour
     void Awake()
     {
         I = this;
+    }
 
+    void Start()
+    {
         // 터치 이펙트 풀
         TouchParticle touchPrefab = Resources.Load<TouchParticle>("TouchParticle");
         touchPool = new ObjectPool<TouchParticle>(touchPrefab, transform, 10);
@@ -23,6 +26,5 @@ public class ObjectPooler : MonoBehaviour
         // 폭발은 그냥 생성 파괴 해도 될 수도? - 갯수가 얼마 없음
         Explosion explosionPrefab = Resources.Load<Explosion>("Explosion");
         explosionPool = new ObjectPool<Explosion>(explosionPrefab, transform, 4);
-
     }
 }

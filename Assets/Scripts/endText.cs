@@ -19,6 +19,6 @@ public class endText : MonoBehaviour
 
     public void ReGame()
     {
-        SceneManager.LoadScene("MainScene");
+        stageSelectManager.SSM.StartGame();
     }
 }

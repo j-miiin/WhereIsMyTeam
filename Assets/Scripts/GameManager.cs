@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public Text timeText;
+    public Text maxScoreTxt;
     public GameObject card;
     public GameObject endText;
     public GameObject tryMatchCountText;

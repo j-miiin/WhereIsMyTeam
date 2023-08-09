@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class startBtn : MonoBehaviour
 {
-    public GameObject stageSelectManagerObject;
     public GameObject selectStagePanel;
     public GameObject stage2Btn;
     public GameObject lock_img;
@@ -35,17 +35,7 @@ public class startBtn : MonoBehaviour
 
     public void gameStart()
     {
-        if (stageSelectManager.SSM.getStage() == 1)
-        {
-            SceneManager.LoadScene("MainScene");
-            //SceneManager.LoadScene("kjm_mainScene");
-            DontDestroyOnLoad(stageSelectManagerObject);
-        } else
-        {
-            SceneManager.LoadScene("kjm_nextStageScene");
-            DontDestroyOnLoad(stageSelectManagerObject);
-        }
-        
+        stageSelectManager.SSM.StartGame();
     }
 
     public void selectStage1()

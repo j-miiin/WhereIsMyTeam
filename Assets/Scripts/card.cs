@@ -95,6 +95,7 @@ public class card : MonoBehaviour
         {
             ratio += Time.deltaTime * flipSpeed;
             backRotation.y = ratio;
+            backRotation.y = Mathf.Clamp(backRotation.y, 0, flipRotation);
             backTransform.rotation = Quaternion.Euler(backRotation);
             yield return null;
         }
@@ -109,6 +110,7 @@ public class card : MonoBehaviour
         {
             ratio -= Time.deltaTime * flipSpeed;
             frontRotation.y = ratio;
+            frontRotation.y = Mathf.Clamp(frontRotation.y, 0, flipRotation);
             frontTransform.rotation = Quaternion.Euler(frontRotation);
             yield return null;
         }

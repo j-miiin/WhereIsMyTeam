@@ -67,7 +67,7 @@ public class stageSelectManager : MonoBehaviour
         float time = 0;
         while (time < fadeValue)
         {
-            time += Time.fixedDeltaTime / fadeTime;
+            time += Time.unscaledDeltaTime / fadeTime;
             fadeImage.material.SetFloat("_StepValue", time);
             yield return null;
         }
@@ -82,7 +82,7 @@ public class stageSelectManager : MonoBehaviour
         time = fadeValue;
         while (time > 0)
         {
-            time -= Time.fixedDeltaTime / fadeTime;
+            time -= Time.unscaledDeltaTime / fadeTime;
             fadeImage.material.SetFloat("_StepValue", time);
             yield return null;
         }

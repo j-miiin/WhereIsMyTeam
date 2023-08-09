@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject scoreText;
     public GameObject resultPanel;
     public GameObject countdownText;
+    public GameObject nextStageBtn;
     float time;
     float countdownTime;
     int tryMatchCount;
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     const int MAX_TRYCOUNT_SCORE = 1000;
     const float PLAY_TIME = 30f;
+    const float STAGE2_PLAY_TIME = 60f;
     const float COUNTDOWN_TIME = 3f;
 
     const string LOCKED_STAGE = "lockedStage";
@@ -71,8 +73,6 @@ public class GameManager : MonoBehaviour
     IEnumerator Start()
     {
         Time.timeScale = 1f;
-        time = 30f;
-        timeText.text = time.ToString("N2");
 
         tryMatchCount = 0;
         time = PLAY_TIME;
@@ -81,6 +81,9 @@ public class GameManager : MonoBehaviour
         score = 0;
         countdownTime = COUNTDOWN_TIME;
         curStage = stageSelectManager.SSM.getStage();
+
+        time = (curStage == 1) ? PLAY_TIME : STAGE2_PLAY_TIME;
+        timeText.text = time.ToString("N2");
 
         stageManager.S.selectStage(curStage);
         //stageManager.S.selectStage(2);
@@ -269,6 +272,8 @@ public class GameManager : MonoBehaviour
             {
                 PlayerPrefs.SetInt(LOCKED_STAGE, curStage);
             }
+
+            if (curStage == 1) stageSelectManager.SSM.setStage(2);
         }
         setResultPanel();
     }
@@ -285,5 +290,10 @@ public class GameManager : MonoBehaviour
         endText.GetComponent<Text>().text = isSuccess ? "성공!" : "실패!";  // 성공 or 실패 텍스트 
         tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " 회 시도";  // 매칭 시도 횟수 텍스트
         scoreText.GetComponent<Text>().text = "score " + score; // 점수 텍스트 
+
+        if (isSuccess && curStage == 1)
+        {
+            nextStageBtn.SetActive(true);
+        }
     }
 }

@@ -20,6 +20,6 @@ public class nextStageBtn : MonoBehaviour
     public void goNextStage()
     {
         stageSelectManager.SSM.setStage(2);
-        SceneManager.LoadScene("kjm_nextStageScene");
+        SceneManager.LoadScene("Stage2Scene");
     }
 }

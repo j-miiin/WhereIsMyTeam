@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 16; i++)
         {
             GameObject newCard = Instantiate(card);
-            // newCard¸¦ cards ¾ÈÀ¸·Î ¿Å°ÜÁà
+            // newCardÂ¸Â¦ cards Â¾ÃˆÃ€Â¸Â·ÃŽ Â¿Ã…Â°ÃœÃÃ 
             newCard.transform.parent = GameObject.Find("cards").transform;
             float x = (i / 4) * 1.4f - 2.1f;
             float y = (i % 4) * 1.4f - 3.0f;
@@ -92,6 +92,31 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         endText.SetActive(true);
+        tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " ÂšÂŒ Â‹ÂœÂ„";
+        tryMatchCountText.SetActive(true);
+
+        if (PlayerPrefs.HasKey("bestScore") == false)
+        {
+            PlayerPrefs.SetFloat("bestScore", score);
+        }
+        else
+        {
+            if (PlayerPrefs.GetFloat("bestScore") < score)
+            {
+                PlayerPrefs.SetFloat("bestScore", score);
+            }
+        }
+        float maxScore = PlayerPrefs.GetFloat("bestScore");
+        maxScoreTxt.text = maxScore.ToString();
+
+        if (isSuccess)
+        {
+            score += (int)time * 100;
+            int tryCntScore = MAX_TRYCOUNT_SCORE - ((tryMatchCount - 8) * 50);
+            if (tryCntScore > 0) score += tryCntScore;
+        }
+        setResultPanel();
+        
     }
 
     public void retryGame()

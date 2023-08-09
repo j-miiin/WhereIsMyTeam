@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     bool isSuccess;
 
     const int MAX_TRYCOUNT_SCORE = 1000;
-    const float PLAY_TIME = 30f;
+    const float PLAY_TIME = 60f;
     const float STAGE2_PLAY_TIME = 60f;
     const float COUNTDOWN_TIME = 3f;
 
@@ -269,10 +269,8 @@ public class GameManager : MonoBehaviour
 
             if (PlayerPrefs.HasKey(LOCKED_STAGE))
             {
-                PlayerPrefs.SetInt(LOCKED_STAGE, curStage);
+                PlayerPrefs.SetInt(LOCKED_STAGE, curStage);     
             }
-
-            if (curStage == 1) stageSelectManager.SSM.setStage(2);
         }
         setResultPanel();
     }

@@ -33,7 +33,7 @@ public class TouchParticle : MonoBehaviour, IPoolable<TouchParticle>
         float ratio = 0f;
         while (ratio < remainTime)
         {
-            ratio += Time.deltaTime;
+            ratio += Time.unscaledDeltaTime;
             yield return null;
         }
 

@@ -49,6 +49,7 @@ public class stageManager : MonoBehaviour
 
     public void selectStage(int stage)
     {
+        // GameManager로부터 stage 정보를 받아와서 stage에 따라 다른 카드 배열 생성
         if (stage == 1)
         {
             stageCardSizeDict.Add(stage, 1);

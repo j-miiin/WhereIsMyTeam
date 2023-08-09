@@ -19,6 +19,6 @@ public class goHomeBtn : MonoBehaviour
 
     public void goHome()
     {
-        SceneManager.LoadScene("kjm_startScene");
+        SceneManager.LoadScene("StartScene");
     }
 }

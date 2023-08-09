@@ -26,7 +26,7 @@ public class startBtn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerPrefs.GetInt(LOCKED_STAGE) == 1)
+        if (PlayerPrefs.GetInt(LOCKED_STAGE) == 1)  // stage 1 클리어하면 stage2 버튼 활성화
         {
             stage2Btn.GetComponent<Button>().interactable = true;
             lock_img.SetActive(false);
@@ -46,7 +46,8 @@ public class startBtn : MonoBehaviour
             DontDestroyOnLoad(stageSelectManagerObject);
         } else
         {
-            SceneManager.LoadScene("kjm_nextStageScene");
+            SceneManager.LoadScene("Stage2Scene");
+            //SceneManager.LoadScene("kjm_nextStageScene");
             DontDestroyOnLoad(stageSelectManagerObject);
         }
         

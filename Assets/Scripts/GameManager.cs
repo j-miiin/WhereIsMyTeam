@@ -15,20 +15,22 @@ public class GameManager : MonoBehaviour
     public GameObject resultPanel;
     public GameObject countdownText;
     public GameObject nextStageBtn;
-    float time;
-    float countdownTime;
-    int tryMatchCount;
-    int score;
-    int curStage = 0;
-    bool isSpeedUp;
-    bool isSuccess;
 
-    const int MAX_TRYCOUNT_SCORE = 1000;
-    const float PLAY_TIME = 60f;
-    const float STAGE2_PLAY_TIME = 60f;
-    const float COUNTDOWN_TIME = 3f;
-
-    const string LOCKED_STAGE = "lockedStage";
+    // 변수 
+    float time;     // 게임 플레이 시간 변수
+    float countdownTime;    // 카운트다운 시간 변수
+    int tryMatchCount;      // 카드 매칭 시도 횟수
+    int score;      // 현재 스테이지 점수
+    int curStage = 0;   // 현재 스테이지
+    bool isSpeedUp;     // 시간이 5초 이하일 때 스피드업 상태(빨간 글씨 + 빠른 BGM)로 바꿨는지
+    bool isSuccess;     // 현재 스테이지 클리어 여부
+    
+    // 상수
+    const int MAX_TRYCOUNT_SCORE = 1000;       // 최소 매칭 횟수일 때의 최대 점수
+    const float PLAY_TIME = 30f;        // Stage 1 플레이 시간 
+    const float STAGE2_PLAY_TIME = 60f;     // Stae 2 플레이 시간
+    const float COUNTDOWN_TIME = 3f;    // 첫 번째 카드 뒤집고 카운트다운 시간
+    const string LOCKED_STAGE = "lockedStage";  // 해제한 스테이지 확인용 PlayerPrefs key 
 
     public static GameManager I;
 
@@ -74,6 +76,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
+        // 변수 초기화
         tryMatchCount = 0;
         time = PLAY_TIME;
         tryMatchCount = 0;
@@ -82,10 +85,13 @@ public class GameManager : MonoBehaviour
         countdownTime = COUNTDOWN_TIME;
         curStage = stageSelectManager.SSM.getStage();
 
+        // 현재 스테이지 1이면 PLAY_TIME(30f) 시간만큼, 스테이지 2면 STAGE2_PLAY_TIME(60f)로 설정
         time = (curStage == 1) ? PLAY_TIME : STAGE2_PLAY_TIME;
         timeText.text = time.ToString("N2");
 
+        // stageManager에게 현재 스테이지 정보를 보내줌 -> stageManager가 스테이지에 따라 카드를 생성해줌
         stageManager.S.selectStage(curStage);
+
         //stageManager.S.selectStage(2);
 
         //int[] teams = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
@@ -162,11 +168,11 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (time <= 0f)
+        if (time <= 0f) // 시간 초과 (실패)
         {
             Time.timeScale = 0f;
             setResultPanel();
-        } else if (time <= 5f) {
+        } else if (time <= 5f) {    // 5초 이하일 때 
             if (!isSpeedUp)
             {
                 timeText.color = Color.red;
@@ -181,7 +187,7 @@ public class GameManager : MonoBehaviour
             timeText.text = time.ToString("N2");
         }
 
-        if (firstCard != null && secondCard == null)
+        if (firstCard != null && secondCard == null)    // 첫 번째 카드만 선택했을 때 카운트다운 시작
         {
             countdownTime -= Time.deltaTime;
             countdownText.SetActive(true);
@@ -219,13 +225,13 @@ public class GameManager : MonoBehaviour
             int cardsLeft = GameObject.Find("cards").transform.childCount;
             if (cardsLeft == 2)
             {
-                isSuccess = true;
+                isSuccess = true;   // 스테이지 클리어
                 Invoke("GameEnd", 1f);
             }
         }
         else
         {
-            time -= 1f;
+            time -= 1f;     // 매칭 실패시 시간 1초 감소
             StartCoroutine(CoVerifyMatching(firstCardImage));
             audioSource.PlayOneShot(fail);
         
@@ -235,7 +241,7 @@ public class GameManager : MonoBehaviour
 
         firstCard = null;
         secondCard = null;
-        tryMatchCount++;
+        tryMatchCount++;    // 매칭 시도 횟수 카운트
     }
 
     private IEnumerator CoVerifyMatching(string cardName, bool isCorrect = false)
@@ -262,13 +268,15 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
 
-        if (isSuccess)
+        if (isSuccess)  // 스테이지 클리어
         {
+            // 점수 계산
             score += (int)time * 100;
             int tryCntScore = MAX_TRYCOUNT_SCORE - ((tryMatchCount - 8) * 50);
             if (tryCntScore > 0) score += tryCntScore;
 
-            if (PlayerPrefs.HasKey(LOCKED_STAGE))
+            // PlayerPrefs에 해제된 스테이지 정보가 있고, 현재 스테이지가 새로 해제한 스테이지일 때 업데이트
+            if (PlayerPrefs.HasKey(LOCKED_STAGE) && PlayerPrefs.GetInt(LOCKED_STAGE) < curStage)
             {
                 PlayerPrefs.SetInt(LOCKED_STAGE, curStage);     
             }
@@ -278,7 +286,14 @@ public class GameManager : MonoBehaviour
 
     public void retryGame()
     {
-        SceneManager.LoadScene("MainScene");
+        if (curStage == 1)  // 스테이지 1
+        {
+            SceneManager.LoadScene("MainScene");
+        }
+        else    // 스테이지 2
+        {
+            SceneManager.LoadScene("Stage2Scene");
+        } 
     }
 
     private void setResultPanel()
@@ -291,6 +306,7 @@ public class GameManager : MonoBehaviour
 
         stageManager.S.SetInActiveCards();
 
+        // 스테이지를 클리어했고 현재 스테이지가 1이면 다음 스테이지 버튼 활성화
         if (isSuccess && curStage == 1)
         {
             nextStageBtn.SetActive(true);

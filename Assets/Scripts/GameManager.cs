@@ -268,6 +268,20 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
 
+        if (PlayerPrefs.HasKey("bestScore") == false)
+        {
+            PlayerPrefs.SetFloat("bestScore", score);
+        }
+        else
+        {
+            if (PlayerPrefs.GetFloat("bestScore") < score)
+            {
+                PlayerPrefs.SetFloat("bestScore", score);
+            }
+        }
+        float maxScore = PlayerPrefs.GetFloat("bestScore");
+        maxScoreTxt.text = maxScore.ToString();
+
         if (isSuccess)  // 스테이지 클리어
         {
             // 점수 계산

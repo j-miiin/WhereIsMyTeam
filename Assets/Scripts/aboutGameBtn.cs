@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class nextStageBtn : MonoBehaviour
+public class aboutGameBtn : MonoBehaviour
 {
+    public GameObject aboutGamePanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,9 +18,13 @@ public class nextStageBtn : MonoBehaviour
         
     }
 
-    public void goNextStage()
+    public void openAboutGamePanel()
     {
-        stageSelectManager.SSM.setStage(2);
-        SceneManager.LoadScene("kjm_nextStageScene");
+        aboutGamePanel.SetActive(true);
+    }
+
+    public void closeAboutGamePanel()
+    {
+        aboutGamePanel.SetActive(false);
     }
 }

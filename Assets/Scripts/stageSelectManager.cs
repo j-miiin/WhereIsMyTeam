@@ -8,6 +8,8 @@ public class stageSelectManager : MonoBehaviour
 
     public static stageSelectManager SSM;
 
+    const string LOCKED_STAGE = "lockedStage";
+
     private void Awake()
     {
         SSM = this;
@@ -16,7 +18,14 @@ public class stageSelectManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SSM.stage = 1;
+        if (PlayerPrefs.HasKey(LOCKED_STAGE)) 
+        {
+            SSM.stage = PlayerPrefs.GetInt(LOCKED_STAGE) + 1;
+        } else
+        {
+            SSM.stage = 1;
+        }
+        Debug.Log(SSM.stage);
     }
 
     // Update is called once per frame

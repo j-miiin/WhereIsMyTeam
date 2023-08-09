@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TouchParticle : MonoBehaviour
+public class TouchParticle : MonoBehaviour, IPoolable<TouchParticle>
 {
     float remainTime = 1f;
 
-    Action<ParticleSystem> returnAction;
+    Action<TouchParticle> returnAction;
 
     ParticleSystem ParticleSystem;
 
@@ -25,13 +25,7 @@ public class TouchParticle : MonoBehaviour
 
     void OnDisable()
     {
-        returnAction?.Invoke(ParticleSystem);
-    }
-
-
-    public void SetReturnCallback(Action<ParticleSystem> action)
-    {
-        returnAction = action;
+        returnAction?.Invoke(this);
     }
 
     IEnumerator CoRemainWhile()
@@ -46,5 +40,8 @@ public class TouchParticle : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-
+    public void SetReturnObject(Action<TouchParticle> action)
+    {
+        returnAction = action;
+    }
 }

@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     public float cardSettingTime = 1f;
     bool isSettings = true;
 
+    
     private void Awake()
     {
         I = this;

@@ -6,9 +6,6 @@ public class InputManager : MonoBehaviour
 {
     public static InputManager I;
 
-    [Header("Touch Pool")]
-    TouchPool touchPool;
-
     Touch touch;
 
     Camera mainCam;
@@ -16,8 +13,7 @@ public class InputManager : MonoBehaviour
     private void Awake()
     {
         I = this;
-        ParticleSystem touchPrefab = Resources.Load<ParticleSystem>("TouchParticle");
-        touchPool = new TouchPool(touchPrefab, transform);
+        
         mainCam = Camera.main;
     }
     
@@ -37,7 +33,7 @@ public class InputManager : MonoBehaviour
 #if UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
         {
-            ParticleSystem particle = touchPool.GetObject();
+            TouchParticle particle = ObjectPooler.I.touchPool.GetObject();
             Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
             mousePos.z = 0;
             particle.transform.position = mousePos;

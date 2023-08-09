@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public Text timeText;
-    public Text maxScoreTxt;
+    public Text bestScoreText;
     public GameObject card;
     public GameObject endText;
     public GameObject tryMatchCountText;
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     const float STAGE2_PLAY_TIME = 60f;     // Stae 2 플레이 시간
     const float COUNTDOWN_TIME = 3f;    // 첫 번째 카드 뒤집고 카운트다운 시간
     const string LOCKED_STAGE = "lockedStage";  // 해제한 스테이지 확인용 PlayerPrefs key 
+    const string BEST_SCORE = "bestScore";
 
     public static GameManager I;
 
@@ -85,6 +86,8 @@ public class GameManager : MonoBehaviour
         score = 0;
         countdownTime = COUNTDOWN_TIME;
         curStage = stageSelectManager.SSM.getStage();
+
+        bestScoreText.text = "Best Score " + PlayerPrefs.GetFloat(BEST_SCORE).ToString("N0");
 
         // 현재 스테이지 1이면 PLAY_TIME(30f) 시간만큼, 스테이지 2면 STAGE2_PLAY_TIME(60f)로 설정
         time = (curStage == 1) ? PLAY_TIME : STAGE2_PLAY_TIME;
@@ -270,20 +273,6 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
 
-        if (PlayerPrefs.HasKey("bestScore") == false)
-        {
-            PlayerPrefs.SetFloat("bestScore", score);
-        }
-        else
-        {
-            if (PlayerPrefs.GetFloat("bestScore") < score)
-            {
-                PlayerPrefs.SetFloat("bestScore", score);
-            }
-        }
-        float maxScore = PlayerPrefs.GetFloat("bestScore");
-        //maxScoreTxt.text = maxScore.ToString();
-
         if (isSuccess)  // 스테이지 클리어
         {
             // 점수 계산
@@ -296,6 +285,20 @@ public class GameManager : MonoBehaviour
             {
                 PlayerPrefs.SetInt(LOCKED_STAGE, curStage);     
             }
+
+            if (PlayerPrefs.HasKey(BEST_SCORE) == false)
+            {
+                PlayerPrefs.SetFloat(BEST_SCORE, score);
+            }
+            else
+            {
+                if (PlayerPrefs.GetFloat(BEST_SCORE) < score)
+                {
+                    PlayerPrefs.SetFloat(BEST_SCORE, score);
+                }
+            }
+            float maxScore = PlayerPrefs.GetFloat(BEST_SCORE);
+            bestScoreText.text = "Best Score " + maxScore.ToString("N0");
         }
         setResultPanel();
     }

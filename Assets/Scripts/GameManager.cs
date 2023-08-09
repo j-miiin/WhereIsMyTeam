@@ -224,6 +224,7 @@ public class GameManager : MonoBehaviour
             secondCard.GetComponent<card>().destroyCard();
 
             int cardsLeft = GameObject.Find("cards").transform.childCount;
+            Debug.Log(cardsLeft);
             if (cardsLeft == 2)
             {
                 isSuccess = true;   // 스테이지 클리어
@@ -281,7 +282,7 @@ public class GameManager : MonoBehaviour
             }
         }
         float maxScore = PlayerPrefs.GetFloat("bestScore");
-        maxScoreTxt.text = maxScore.ToString();
+        //maxScoreTxt.text = maxScore.ToString();
 
         if (isSuccess)  // 스테이지 클리어
         {

@@ -291,6 +291,8 @@ public class GameManager : MonoBehaviour
         tryMatchCountText.GetComponent<Text>().text = tryMatchCount + " 회 시도";  // 매칭 시도 횟수 텍스트
         scoreText.GetComponent<Text>().text = "score " + score; // 점수 텍스트 
 
+        stageManager.S.SetInActiveCards();
+
         if (isSuccess && curStage == 1)
         {
             nextStageBtn.SetActive(true);

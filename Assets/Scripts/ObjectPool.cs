@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class ObjectPool<T> where T : MonoBehaviour, IPoolable<T>
 {
+    [Header("풀링 프리펩")]
     T tPrefab;
+
+    [Header("스택 풀")]
     Stack<T> objectPool = new Stack<T>();
 
     Transform parentTrans;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class stageSelectManager : MonoBehaviour
 {
-    private int stage;
+    private int stage = 1;
 
     public static stageSelectManager SSM;
 

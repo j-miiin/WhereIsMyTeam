@@ -37,8 +37,8 @@ public class startBtn : MonoBehaviour
     {
         if (stageSelectManager.SSM.getStage() == 1)
         {
-            //SceneManager.LoadScene("MainScene");
-            SceneManager.LoadScene("kjm_mainScene");
+            SceneManager.LoadScene("MainScene");
+            //SceneManager.LoadScene("kjm_mainScene");
             DontDestroyOnLoad(stageSelectManagerObject);
         } else
         {

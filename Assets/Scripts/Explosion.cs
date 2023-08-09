@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour, IPoolable<Explosion>
 {
+    [Header("카드 폭발 콜백")]
     Action<Explosion> returnCallback;
     
+    [Header("카드 폭발 애니메이터")]
     Animator animator;
 
-    const string EXPLOSION_NAME = "Explosion";
+    [Header("리소스 경로")]
+    const string EXPLOSION_PATH = "Explosion";
 
     void Awake()
     {
@@ -19,7 +22,7 @@ public class Explosion : MonoBehaviour, IPoolable<Explosion>
     void OnEnable()
     {
         SetSize();
-        animator.Play(EXPLOSION_NAME);
+        animator.Play(EXPLOSION_PATH);
     }
 
     void OnDisable()
@@ -34,7 +37,7 @@ public class Explosion : MonoBehaviour, IPoolable<Explosion>
 
     void SetSize()
     {
-        if (!stageManager.S)
+        if (stageManager.S.stageCardSizeDict.Count == 0)
         {
             return;
         }

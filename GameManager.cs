@@ -269,6 +269,20 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
 
+        
+        if (isSuccess)  // 스테이지 클리어
+        {
+            // 점수 계산
+            score += (int)time * 100;
+            int tryCntScore = MAX_TRYCOUNT_SCORE - ((tryMatchCount - 8) * 50);
+            if (tryCntScore > 0) score += tryCntScore;
+
+            // PlayerPrefs에 해제된 스테이지 정보가 있고, 현재 스테이지가 새로 해제한 스테이지일 때 업데이트
+            if (PlayerPrefs.HasKey(LOCKED_STAGE) && PlayerPrefs.GetInt(LOCKED_STAGE) < curStage)
+            {
+                PlayerPrefs.SetInt(LOCKED_STAGE, curStage);     
+            }
+        }
         if (PlayerPrefs.HasKey("bestScore") == false)
         {
             PlayerPrefs.SetFloat("bestScore", score);
@@ -283,19 +297,6 @@ public class GameManager : MonoBehaviour
         float maxScore = PlayerPrefs.GetFloat("bestScore");
         maxScoreTxt.text = maxScore.ToString("N0");
 
-        if (isSuccess)  // 스테이지 클리어
-        {
-            // 점수 계산
-            score += (int)time * 100;
-            int tryCntScore = MAX_TRYCOUNT_SCORE - ((tryMatchCount - 8) * 50);
-            if (tryCntScore > 0) score += tryCntScore;
-
-            // PlayerPrefs에 해제된 스테이지 정보가 있고, 현재 스테이지가 새로 해제한 스테이지일 때 업데이트
-            if (PlayerPrefs.HasKey(LOCKED_STAGE) && PlayerPrefs.GetInt(LOCKED_STAGE) < curStage)
-            {
-                PlayerPrefs.SetInt(LOCKED_STAGE, curStage);     
-            }
-        }
         setResultPanel();
     }
 

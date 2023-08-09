@@ -53,6 +53,8 @@ public class card : MonoBehaviour
 
     void destroyCardInvoke()
     {
+        // 성공 시 폭발 연출
+        ObjectPooler.I.explosionPool.GetObject().transform.position = transform.position;
         Destroy(gameObject);
     }
 

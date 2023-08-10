@@ -254,8 +254,7 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/HDDjungmin/Foreign Operation/2023 Sparta Unity/Week1 Mini
-    Team Project/whereismyteamkey.keystore
+  AndroidKeystoreName: '{inproject}: whereismyteamkey.keystore'
   AndroidKeyaliasName: whereismyteamkey
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0

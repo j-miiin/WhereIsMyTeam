@@ -55,6 +55,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3470545704287235640}
     m_Modifications:
+    - target: {fileID: 6214207209137373272, guid: 679787d2e0e389044a58420b66ebea44, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6214207209137373272, guid: 679787d2e0e389044a58420b66ebea44, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 760
+      objectReference: {fileID: 0}
+    - target: {fileID: 6214207209137373272, guid: 679787d2e0e389044a58420b66ebea44, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1280
+      objectReference: {fileID: 0}
     - target: {fileID: 6214207209137373274, guid: 679787d2e0e389044a58420b66ebea44, type: 3}
       propertyPath: m_Name
       value: FadeCanavs

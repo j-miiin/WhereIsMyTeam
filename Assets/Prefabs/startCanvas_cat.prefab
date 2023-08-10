@@ -92,11 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cdea318d0cee9e45aa3f9f62911faa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageSelectManagerObject: {fileID: 0}
   selectStagePanel: {fileID: 2700587629890008984}
   stage2Btn: {fileID: 2700587630989688256}
   lock_img: {fileID: 2700587630890396866}
-  selectedStageText: {fileID: 2700587630089696960}
 --- !u!114 &2700587629437119782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,7 +332,7 @@ MonoBehaviour:
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 760, y: 1280}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1367,11 +1365,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cdea318d0cee9e45aa3f9f62911faa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageSelectManagerObject: {fileID: 0}
   selectStagePanel: {fileID: 2700587629890008984}
   stage2Btn: {fileID: 2700587630989688256}
   lock_img: {fileID: 2700587630890396866}
-  selectedStageText: {fileID: 2700587630089696960}
 --- !u!1 &2700587631118084558
 GameObject:
   m_ObjectHideFlags: 0
@@ -1623,6 +1619,7 @@ MonoBehaviour:
   stageCatBtnImage: {fileID: 2700587631213342411}
   pixelcat: {fileID: 21300000, guid: 3eba2afdc4b98724cbc4ed280d834c2a, type: 3}
   pixelcat_with_sunglasses: {fileID: 21300000, guid: a922530679010cc4895c233d34adb008, type: 3}
+  selectedStageText: {fileID: 2700587630089696960}
 --- !u!114 &2700587631213342409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1842,11 +1839,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cdea318d0cee9e45aa3f9f62911faa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageSelectManagerObject: {fileID: 0}
   selectStagePanel: {fileID: 2700587629890008984}
   stage2Btn: {fileID: 2700587630989688256}
   lock_img: {fileID: 2700587630890396866}
-  selectedStageText: {fileID: 2700587630089696960}
 --- !u!1 &2700587631341743690
 GameObject:
   m_ObjectHideFlags: 0

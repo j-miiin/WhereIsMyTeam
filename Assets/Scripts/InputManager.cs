@@ -27,7 +27,7 @@ public class InputManager : MonoBehaviour
             {
                 TouchParticle particle = ObjectPooler.I.touchPool.GetObject();
                 Vector3 touchPos = mainCam.ScreenToWorldPoint(touch.position);
-                touchPos.y = 0;
+                touchPos.z = 0;
                 particle.transform.position = touchPos;
             }
         }

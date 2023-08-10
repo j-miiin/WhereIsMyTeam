@@ -135,7 +135,6 @@ Library: lib_burst_generated
 --root-assembly=C:\HDDjungmin\Foreign Operation\2023 Sparta Unity\Week1 Mini Team Project\WhereIsMyTeam\Temp\StagingArea\Data\Managed\Unity.Burst.dll
 --root-assembly=C:\HDDjungmin\Foreign Operation\2023 Sparta Unity\Week1 Mini Team Project\WhereIsMyTeam\Temp\StagingArea\Data\Managed\Unity.2D.Animation.Runtime.dll
 --root-assembly=C:\HDDjungmin\Foreign Operation\2023 Sparta Unity\Week1 Mini Team Project\WhereIsMyTeam\Temp\StagingArea\Data\Managed\Unity.TextMeshPro.dll
---root-assembly=C:\HDDjungmin\Foreign Operation\2023 Sparta Unity\Week1 Mini Team Project\WhereIsMyTeam\Temp\StagingArea\Data\Managed\UnityEngine.Advertisements.dll
 --root-assembly=C:\HDDjungmin\Foreign Operation\2023 Sparta Unity\Week1 Mini Team Project\WhereIsMyTeam\Temp\StagingArea\Data\Managed\Unity.Timeline.dll
 --root-assembly=C:\HDDjungmin\Foreign Operation\2023 Sparta Unity\Week1 Mini Team Project\WhereIsMyTeam\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=C:\HDDjungmin\Foreign Operation\2023 Sparta Unity\Week1 Mini Team Project\WhereIsMyTeam\Temp\StagingArea\Data\Managed\Unity.2D.SpriteShape.Runtime.dll
